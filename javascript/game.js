@@ -6,7 +6,6 @@
 var Game = /** @class */ (function () {
     function Game(fps) {
         var _this = this;
-        console.log("Initialisation du jeu");
         // Initialisation des variables d'affichage
         this.canvas = document.getElementById("game"); // Recupere l'element du HTML avec l'identifiant "game"
         this.canvas.width = 512; // Specifie la largeur de l'element, ici 512 pixels
@@ -33,7 +32,6 @@ var Game = /** @class */ (function () {
     }
     Game.prototype.registerKeyPress = function () {
         var _this = this;
-        console.log("Ecoute des evenements claviers");
         // Lorsque l'element "<body></body>" de la page capture une touche enfoncee (keydown),
         // nous demandons au system d'appeler la methode "keyDetected()" avec en argument le code
         // de la touche.
@@ -41,7 +39,6 @@ var Game = /** @class */ (function () {
         document.body.addEventListener('keydown', function (e) { _this.keyDetected(e.keyCode); });
     };
     Game.prototype.keyDetected = function (keycode) {
-        console.log("Evenement clavier");
         if (this.level != null) {
             // Si le niveau est non null alors, le joueur est en train de jouer.
             // Nous allons donc effectuer des actions specifiques pour les fleches
@@ -58,22 +55,9 @@ var Game = /** @class */ (function () {
                 // du niveau qui gere la fleche gauche
                 this.level.keyLeft();
             }
-            else if (keycode == 38) {
-                console.log("   -> touche 'haut'");
-                // Une fleche haut en cours de jeu, et nous appelons la methode
-                // du niveau qui gere la fleche haut
-                this.level.keyUp();
-            }
-            else if (keycode == 40) {
-                console.log("   -> touche 'bas'");
-                // Une fleche bas en cours de jeu, et nous appelons la methode
-                // du niveau qui gere la fleche bas
-                this.level.keyDown();
-            }
             else if (keycode == 32) {
                 // Une touche espace en cours de jeu, et nous appelons la methode
                 // du niveau qui gere la barre espace
-                console.log("   -> touche 'espace'");
                 this.level.keySpace();
             }
         }
@@ -81,13 +65,11 @@ var Game = /** @class */ (function () {
             // Sinon le niveau est null alors, le joueur est dans le menu.
             // Pour commencer un niveau le joueur doit appuyer sur la touche entree
             if (keycode == 13) {
-                console.log("   -> touche 'entree'");
                 this.startLevel();
             }
         }
     };
     Game.prototype.startLevel = function () {
-        console.log("Creation du niveau");
         // Creation de l'objet niveau
         var canvas = document.getElementById("game");
         this.level = new Level(canvas, canvas.getContext('2d'), this.niveau);
@@ -157,7 +139,6 @@ var Game = /** @class */ (function () {
     };
     Game.prototype.nextLevel = function () {
         // Preparation du prochain niveau
-        console.log("Initialisation du niveau suivant");
         // on passe au niveau suivant
         // (x++  equivalent a x=x+1)
         this.niveau++;
@@ -172,7 +153,6 @@ var Game = /** @class */ (function () {
     };
     Game.prototype.resetLevel = function () {
         // Re-initialisation du niveau courant
-        console.log("Re-initialisation du niveau courant");
         // on precise que le joueur n'est plus dans le niveau
         this.level = null;
         // Comme le joueur a perdu le niveau courant
@@ -188,7 +168,6 @@ var Game = /** @class */ (function () {
 // Le debut de notre programme ne s'effectuera que lorsque la page html
 // aura ete entierement chargee
 window.onload = function () {
-    console.log("Initialisation de la page");
     // Creation du jeu dont le rafraichissement s'effectuera 30 fois par seconde
     var jeu = new Game(30);
 };

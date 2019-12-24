@@ -50,7 +50,6 @@ class AnimatedObject {
     protected setDirection(x : number, y : number)
     // cree un nouvel objet Vector si attr pos est nul(initialise) sinon le modifie les valeurs
             {
-                console.log('setDirection');
                 if(this.dir == null){
                     this.dir = new Vector(x, y);
                 }else{
@@ -66,23 +65,26 @@ class AnimatedObject {
                 let test_x = (this.canvas.width - this.width);
                 let test_y = (this.canvas.height - this.height);
 
-
-
-                if(this.pos.getX() >= test_x || this.pos.getX() <= 0){
+                if(this.pos.getX() > test_x || this.pos.getX() < 0){
                     x = this.pos.getX() - (this.dir.getX() * this.speed);
                     if(update_dir == false){
                         this.setDirection(0, 0);
                     }else{
                         this.setDirection(-this.dir.getX(), this.dir.getY());
-                    } 
-                    
-                }if(this.pos.getY() >= test_y || this.pos.getY() <= 0){
+                    }   
+                }
+                if(this.pos.getY() >= test_y || this.pos.getY() <= 0){
                     y = this.pos.getY() - (this.dir.getY() * this.speed);
                     if(update_dir == false){
                         this.setDirection(0, 0); 
                     }else{
                     this.setDirection(this.dir.getX(), -this.dir.getY());
                 }
+            }
+            if(x < 0){
+                x = 0;
+            }else if(x > test_x){
+                x = test_x
             }
                 this.pos.setValues(x, y);
             }
@@ -127,6 +129,11 @@ class AnimatedObject {
         }else{
             return false;
         }
+    }
+
+    getWidth()
+    {
+        return this.width;
     }
     
     

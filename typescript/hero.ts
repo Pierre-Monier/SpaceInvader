@@ -2,10 +2,6 @@
 /// <reference path='multisprites.ts'/>
 /// <reference path='sound.ts'/>
 
-class Transition {
-    
-} 
-
 class Hero extends MultiSprites implements Speaking {
     public yeah : Sound;
     public laser_left : Boolean; 
@@ -16,9 +12,9 @@ class Hero extends MultiSprites implements Speaking {
     {
         super(canvas,context,src);
         this.speed = 20;
-        this.width = 50;
-        this.height = 55;
-        this.pos = new Vector(this.getRandomInt(0, this.canvas.width - this.width), this.getRandomInt(0, this.canvas.height - this.height));
+        this.width = 53;
+        this.height = 53;
+        this.pos = new Vector(this.canvas.width / 2 ,  this.canvas.height - this.height);
         this.dir = new Vector(1, 0);
         this.laser_left = false;
         this.yeah = new Sound('./sounds/yeah.mp3');
@@ -43,18 +39,7 @@ class Hero extends MultiSprites implements Speaking {
         this.laser_left = true;
     }
 
-    public moveUp()
-    {
-        super.setDirection(0, -1);
-        super.move(false);  
-    }
-
-    public moveDown()
-    {
-        super.setDirection(0,1);
-        super.move(false);   
-    }
-    
+   
     public getPos()
     {
         return this.pos;

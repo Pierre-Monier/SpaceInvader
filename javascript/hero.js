@@ -14,19 +14,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var Transition = /** @class */ (function () {
-    function Transition() {
-    }
-    return Transition;
-}());
 var Hero = /** @class */ (function (_super) {
     __extends(Hero, _super);
     function Hero(canvas, context, src) {
         var _this = _super.call(this, canvas, context, src) || this;
         _this.speed = 20;
-        _this.width = 50;
-        _this.height = 55;
-        _this.pos = new Vector(_this.getRandomInt(0, _this.canvas.width - _this.width), _this.getRandomInt(0, _this.canvas.height - _this.height));
+        _this.width = 53;
+        _this.height = 53;
+        _this.pos = new Vector(_this.canvas.width / 2, _this.canvas.height - _this.height);
         _this.dir = new Vector(1, 0);
         _this.laser_left = false;
         _this.yeah = new Sound('./sounds/yeah.mp3');
@@ -44,14 +39,6 @@ var Hero = /** @class */ (function (_super) {
         _super.prototype.setDirection.call(this, -1, 0);
         _super.prototype.move.call(this, false);
         this.laser_left = true;
-    };
-    Hero.prototype.moveUp = function () {
-        _super.prototype.setDirection.call(this, 0, -1);
-        _super.prototype.move.call(this, false);
-    };
-    Hero.prototype.moveDown = function () {
-        _super.prototype.setDirection.call(this, 0, 1);
-        _super.prototype.move.call(this, false);
     };
     Hero.prototype.getPos = function () {
         return this.pos;

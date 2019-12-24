@@ -8,26 +8,22 @@ class Laser extends AnimatedObject implements Speaking {
     public soundtrack : Sound;
     constructor(canvas : HTMLCanvasElement,
         context : CanvasRenderingContext2D,
-        src : string, x : number, y : number, to_left : Boolean)
+        src : string, x : number, y : number)
     {
         super(canvas,context,src);
         this.speed = 30;
-        this.width = 32;
-        this.height = 8;
+        this.width = 6;
+        this.height = 20;
         this.pos = new Vector(x, y);
-        if(to_left == true){
-            this.dir = new Vector(-1, 0);
-        }else{
-            this.dir = new Vector(1, 0);
-        }
+        this.dir = new Vector(0, -1);
         this.soundtrack = new Sound('./sounds/shoot.wav');
         this.soundtrack.getSon().volume = 0.5;
     }
     public move(update_dir : Boolean)
     {
-        let limit : number = this.canvas.width - this.width;
+        let limit : number = this.canvas.height - this.height;
         super.move(false);
-        if(this.pos.getX() + this.width >= limit || this.pos.getX() <= 0){
+        if(this.pos.getY() + this.width >= limit || this.pos.getY() <= 0){
             this.setTo_delete(true);
         }
     }

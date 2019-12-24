@@ -26,7 +26,7 @@ class Level {
         this.canvas = canvas;
         this.context = context;
         this.door= new Door(canvas, context, './images/porte.png')
-        this.hero = new Hero(canvas, context, './images/test.png');
+        this.hero = new Hero(canvas, context, './images/hero.png');
         this.monstres = [];
         this.laser = [];
         for(let i : number = 0; i< nb_m; i++){
@@ -44,8 +44,6 @@ class Level {
     let tmp_monstres : Array<Monster> = [];
     this.checkCollision();
         for(let i : number = 0; i< this.monstres.length; i++){
-            this.monstres[i].move(true);  
-            console.log(this.monstres.length+"Monstre Lenght !! ");      
             if(this.monstres[i].getTo_delete() == false){
                 tmp_monstres.push(this.monstres[i]);
             }   
@@ -118,23 +116,14 @@ class Level {
         this.hero.moveLeft();
     }
 
-    public keyUp() {
-        this.hero.moveUp();
-    }
-
-    public keyDown() {
-        this.hero.moveDown();
-    }
-
     public keySpace() {
         let current_hero_pos : Vector = this.hero.getPos();
-        let laser : Laser = new Laser(this.canvas, this.context, './images/laser.png', current_hero_pos.getX(), current_hero_pos.getY(), this.hero.laser_left )
+        let laser : Laser = new Laser(this.canvas, this.context, './images/laser.png', current_hero_pos.getX() + (this.hero.getWidth()/2), current_hero_pos.getY())
         laser.soundtrack.playSound();
         this.laser.push(laser);  
     }
 
     public getLevelScore() : number {
-        console.log(this.score);
         return this.score; // A changer en temps voulu
     }
 

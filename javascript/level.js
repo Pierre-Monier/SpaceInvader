@@ -24,8 +24,6 @@ var Level = /** @class */ (function () {
         var tmp_monstres = [];
         this.checkCollision();
         for (var i = 0; i < this.monstres.length; i++) {
-            this.monstres[i].move(true);
-            console.log(this.monstres.length + "Monstre Lenght !! ");
             if (this.monstres[i].getTo_delete() == false) {
                 tmp_monstres.push(this.monstres[i]);
             }
@@ -91,20 +89,13 @@ var Level = /** @class */ (function () {
     Level.prototype.keyLeft = function () {
         this.hero.moveLeft();
     };
-    Level.prototype.keyUp = function () {
-        this.hero.moveUp();
-    };
-    Level.prototype.keyDown = function () {
-        this.hero.moveDown();
-    };
     Level.prototype.keySpace = function () {
         var current_hero_pos = this.hero.getPos();
-        var laser = new Laser(this.canvas, this.context, './images/laser.png', current_hero_pos.getX(), current_hero_pos.getY(), this.hero.laser_left);
+        var laser = new Laser(this.canvas, this.context, './images/laser.png', current_hero_pos.getX() + (this.hero.getWidth() / 2), current_hero_pos.getY());
         laser.soundtrack.playSound();
         this.laser.push(laser);
     };
     Level.prototype.getLevelScore = function () {
-        console.log(this.score);
         return this.score; // A changer en temps voulu
     };
     Level.prototype.getLevelState = function () {

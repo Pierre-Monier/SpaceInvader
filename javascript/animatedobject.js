@@ -30,7 +30,6 @@ var AnimatedObject = /** @class */ (function () {
         }
     };
     AnimatedObject.prototype.setDirection = function (x, y) {
-        console.log('setDirection');
         if (this.dir == null) {
             this.dir = new Vector(x, y);
         }
@@ -44,7 +43,7 @@ var AnimatedObject = /** @class */ (function () {
         var y = this.pos.getY() + (this.dir.getY() * this.speed);
         var test_x = (this.canvas.width - this.width);
         var test_y = (this.canvas.height - this.height);
-        if (this.pos.getX() >= test_x || this.pos.getX() <= 0) {
+        if (this.pos.getX() > test_x || this.pos.getX() < 0) {
             x = this.pos.getX() - (this.dir.getX() * this.speed);
             if (update_dir == false) {
                 this.setDirection(0, 0);
@@ -61,6 +60,12 @@ var AnimatedObject = /** @class */ (function () {
             else {
                 this.setDirection(this.dir.getX(), -this.dir.getY());
             }
+        }
+        if (x < 0) {
+            x = 0;
+        }
+        else if (x > test_x) {
+            x = test_x;
         }
         this.pos.setValues(x, y);
     };
@@ -97,6 +102,9 @@ var AnimatedObject = /** @class */ (function () {
         else {
             return false;
         }
+    };
+    AnimatedObject.prototype.getWidth = function () {
+        return this.width;
     };
     return AnimatedObject;
 }());
