@@ -1,17 +1,21 @@
 /// <reference path='animatedobject.ts'/>
 /// <reference path='sound.ts'/>
 class Monster extends AnimatedObject  {
-    public death_sound : Sound
+    public death_sound : Sound;
+
     constructor(canvas : HTMLCanvasElement,
         context : CanvasRenderingContext2D,
-        src : string)
+        src : string, i_tmp : number, j : number)
     {
         super(canvas,context,src);
+        
         this.speed = 1;
         this.width = 30;
         this.height = 32;
-        this.pos = new Vector(this.getRandomInt(0, this.canvas.width - this.width), this.getRandomInt(0, this.canvas.height - this.height));
-        this.dir = new Vector(this.getRandomDir(), this.getRandomDir());
+
+        this.pos = new Vector(i_tmp * this.width, j * this.height);
+        
+        this.dir = new Vector(0, 1);
         this.death_sound = new Sound('./sounds/explosion.wav');
     }
     public move(update_dir : Boolean)
@@ -36,6 +40,14 @@ class Monster extends AnimatedObject  {
             }else{
                 return 1;
             }
+    }
+    getPos()
+    {
+        return this.pos
+    }
+    getWidth()
+    {
+        return this.width;
     }
 
 }

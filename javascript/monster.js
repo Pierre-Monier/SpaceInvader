@@ -15,13 +15,13 @@ var __extends = (this && this.__extends) || (function () {
 /// <reference path='sound.ts'/>
 var Monster = /** @class */ (function (_super) {
     __extends(Monster, _super);
-    function Monster(canvas, context, src) {
+    function Monster(canvas, context, src, i_tmp, j) {
         var _this = _super.call(this, canvas, context, src) || this;
         _this.speed = 1;
         _this.width = 30;
         _this.height = 32;
-        _this.pos = new Vector(_this.getRandomInt(0, _this.canvas.width - _this.width), _this.getRandomInt(0, _this.canvas.height - _this.height));
-        _this.dir = new Vector(_this.getRandomDir(), _this.getRandomDir());
+        _this.pos = new Vector(i_tmp * _this.width, j * _this.height);
+        _this.dir = new Vector(0, 1);
         _this.death_sound = new Sound('./sounds/explosion.wav');
         return _this;
     }
@@ -44,6 +44,12 @@ var Monster = /** @class */ (function (_super) {
         else {
             return 1;
         }
+    };
+    Monster.prototype.getPos = function () {
+        return this.pos;
+    };
+    Monster.prototype.getWidth = function () {
+        return this.width;
     };
     return Monster;
 }(AnimatedObject));

@@ -97,7 +97,7 @@ class Game {
     private startLevel() {
         // Creation de l'objet niveau
         let canvas = <HTMLCanvasElement>document.getElementById("game");
-        this.level = new Level(canvas, canvas.getContext('2d'), this.niveau);
+        this.level = new Level(canvas, canvas.getContext('2d'), this.niveau * 150);
     }
 
     private loop() {

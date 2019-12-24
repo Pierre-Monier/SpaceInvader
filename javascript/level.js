@@ -4,14 +4,22 @@
 /// <reference path='laser.ts'/>
 var Level = /** @class */ (function () {
     function Level(canvas, context, nb_m) {
+        console.log('nbr de monstre : ' + nb_m);
         this.canvas = canvas;
         this.context = context;
         this.door = new Door(canvas, context, './images/porte.png');
         this.hero = new Hero(canvas, context, './images/hero.png');
         this.monstres = [];
         this.laser = [];
+        var j = 0;
+        var i_tmp = 0;
         for (var i = 0; i < nb_m; i++) {
-            var monstre = new Monster(canvas, canvas.getContext('2d'), "./images/monstre.png");
+            var monstre = new Monster(canvas, canvas.getContext('2d'), "./images/monstre.png", i_tmp, j);
+            i_tmp++;
+            if (this.canvas.width / monstre.getWidth() < i_tmp) {
+                i_tmp = 0;
+                j++;
+            }
             this.monstres.push(monstre);
         }
         this.ondoor = false;
