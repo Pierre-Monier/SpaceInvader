@@ -21,7 +21,7 @@ var Monster = /** @class */ (function (_super) {
         _this.width = 30;
         _this.height = 32;
         _this.pos = new Vector(i_tmp * _this.width, j * _this.height);
-        _this.dir = new Vector(0, 1);
+        _this.dir = new Vector(1, 0);
         _this.death_sound = new Sound('./sounds/explosion.wav');
         return _this;
     }

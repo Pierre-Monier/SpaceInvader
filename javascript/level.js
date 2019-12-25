@@ -11,13 +11,14 @@ var Level = /** @class */ (function () {
         this.hero = new Hero(canvas, context, './images/hero.png');
         this.monstres = [];
         this.laser = [];
+        var deca = 4;
         var j = 0;
-        var i_tmp = 0;
+        var i_tmp = deca;
         for (var i = 0; i < nb_m; i++) {
             var monstre = new Monster(canvas, canvas.getContext('2d'), "./images/monstre.png", i_tmp, j);
             i_tmp++;
-            if (this.canvas.width / monstre.getWidth() < i_tmp) {
-                i_tmp = 0;
+            if (this.canvas.width / monstre.getWidth() - deca < i_tmp) {
+                i_tmp = deca;
                 j++;
             }
             this.monstres.push(monstre);
@@ -32,6 +33,7 @@ var Level = /** @class */ (function () {
         var tmp_monstres = [];
         this.checkCollision();
         for (var i = 0; i < this.monstres.length; i++) {
+            this.monstres[i].move(true);
             if (this.monstres[i].getTo_delete() == false) {
                 tmp_monstres.push(this.monstres[i]);
             }

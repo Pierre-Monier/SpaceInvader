@@ -15,7 +15,7 @@ class Monster extends AnimatedObject  {
 
         this.pos = new Vector(i_tmp * this.width, j * this.height);
         
-        this.dir = new Vector(0, 1);
+        this.dir = new Vector(1, 0);
         this.death_sound = new Sound('./sounds/explosion.wav');
     }
     public move(update_dir : Boolean)

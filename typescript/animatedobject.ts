@@ -65,7 +65,7 @@ class AnimatedObject {
                 let test_x = (this.canvas.width - this.width);
                 let test_y = (this.canvas.height - this.height);
 
-                if(this.pos.getX() > test_x || this.pos.getX() < 0){
+                if(this.pos.getX() >= test_x || this.pos.getX() <= 0){
                     x = this.pos.getX() - (this.dir.getX() * this.speed);
                     if(update_dir == false){
                         this.setDirection(0, 0);
@@ -73,7 +73,7 @@ class AnimatedObject {
                         this.setDirection(-this.dir.getX(), this.dir.getY());
                     }   
                 }
-                if(this.pos.getY() >= test_y || this.pos.getY() <= 0){
+                if(this.pos.getY() +1 >= test_y || this.pos.getY() +1 <= 0){
                     y = this.pos.getY() - (this.dir.getY() * this.speed);
                     if(update_dir == false){
                         this.setDirection(0, 0); 
@@ -82,15 +82,12 @@ class AnimatedObject {
                 }
             }
             if(x < 0){
-                x = 0;
+                x = 1;
             }else if(x > test_x){
-                x = test_x
+                x = test_x -1
             }
                 this.pos.setValues(x, y);
             }
-
-    
-
 // A decommenter en temps voulu
     public drawObject(x : number, y : number)
     {
