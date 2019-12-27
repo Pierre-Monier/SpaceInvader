@@ -5,6 +5,7 @@
 /// <reference path='level.ts'/>
 /// <reference path='sound.ts'/>
 
+
 class Game {
     // Attributs utiles pour l'affichage
     private canvas : HTMLCanvasElement;
@@ -97,7 +98,7 @@ class Game {
     private startLevel() {
         // Creation de l'objet niveau
         let canvas = <HTMLCanvasElement>document.getElementById("game");
-        this.level = new Level(canvas, canvas.getContext('2d'), this.niveau * 25);
+        this.level = new Level(canvas, canvas.getContext('2d'), 25);
     }
 
     private loop() {

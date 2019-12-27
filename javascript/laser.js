@@ -15,13 +15,19 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Laser = /** @class */ (function (_super) {
     __extends(Laser, _super);
-    function Laser(canvas, context, src, x, y) {
+    function Laser(canvas, context, src, x, y, is_monster) {
         var _this = _super.call(this, canvas, context, src) || this;
+        _this.is_monster = is_monster;
         _this.speed = 30;
         _this.width = 6;
         _this.height = 20;
         _this.pos = new Vector(x, y);
-        _this.dir = new Vector(0, -1);
+        if (_this.is_monster === false) {
+            _this.dir = new Vector(0, -1);
+        }
+        else {
+            _this.dir = new Vector(0, 1);
+        }
         _this.soundtrack = new Sound('./sounds/shoot.wav');
         _this.soundtrack.getSon().volume = 0.5;
         return _this;
@@ -35,6 +41,9 @@ var Laser = /** @class */ (function (_super) {
         if (this.pos.getY() + this.width >= limit || this.pos.getY() <= 0) {
             this.setTo_delete(true);
         }
+    };
+    Laser.prototype.getIs_monster = function () {
+        return this.is_monster;
     };
     return Laser;
 }(AnimatedObject));

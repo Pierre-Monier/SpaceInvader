@@ -1,5 +1,8 @@
-/// <reference path='sound.ts'/>
+/// <reference path='door.ts'/>
+/// <reference path='invaders.ts'/>
+/// <reference path='hero.ts'/>
 /// <reference path='monster.ts'/>
+/// <reference path='laser.ts'/>
 var Invaders = /** @class */ (function () {
     function Invaders(deca, j, nb_m, canvas) {
         this.tab = [];

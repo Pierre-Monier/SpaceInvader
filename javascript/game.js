@@ -72,7 +72,7 @@ var Game = /** @class */ (function () {
     Game.prototype.startLevel = function () {
         // Creation de l'objet niveau
         var canvas = document.getElementById("game");
-        this.level = new Level(canvas, canvas.getContext('2d'), this.niveau * 25);
+        this.level = new Level(canvas, canvas.getContext('2d'), 25);
     };
     Game.prototype.loop = function () {
         // Pour rappel cette methode est appele "fps" fois par seconde

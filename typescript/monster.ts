@@ -2,14 +2,15 @@
 /// <reference path='sound.ts'/>
 class Monster extends AnimatedObject  {
     public death_sound : Sound;
+    private horizontal_pos : number;
 
     constructor(canvas : HTMLCanvasElement,
         context : CanvasRenderingContext2D,
-        src : string, i_tmp : number, j : number)
+        src : string, i_tmp : number, j : number, speed : number)
     {
         super(canvas,context,src);
-        
-        this.speed = 1;
+        this.horizontal_pos = j;
+        this.speed = speed;
         this.width = 30;
         this.height = 32;
 
@@ -48,6 +49,14 @@ class Monster extends AnimatedObject  {
     getWidth()
     {
         return this.width;
+    }
+    getDir()
+    {
+        return this.dir;
+    }
+    getHpos()
+    {
+        return this.horizontal_pos;
     }
 
 }
