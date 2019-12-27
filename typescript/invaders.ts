@@ -31,10 +31,7 @@ class Invaders {
 
     public shoot()
     {
-        let rand = Math.floor((Math.random() * this.tab.length) + 1);
-        let monster_pos = this.tab[rand].getPos();
-        let evil_laser : Laser = new Laser(this.canvas, this.canvas.getContext('2d'), './images/laser.png', monster_pos.getX() + (this.tab[rand].getWidth()/2), monster_pos.getY(), true)
-        return evil_laser; 
+
     }
 
     public move(tmp_monstres : Array<Monster>)

@@ -14,7 +14,7 @@ class Hero extends MultiSprites implements Speaking {
         this.speed = 20;
         this.width = 53;
         this.height = 53;
-        this.pos = new Vector(this.canvas.width / 2 ,  this.canvas.height - this.height);
+        this.pos = new Vector(this.canvas.width / 2 ,  this.canvas.height - (this.height + 10));
         this.dir = new Vector(1, 0);
         this.laser_left = false;
         this.yeah = new Sound('./sounds/yeah.mp3');

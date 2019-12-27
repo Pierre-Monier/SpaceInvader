@@ -27,7 +27,7 @@ class Game {
         // Initialisation des variables d'affichage
         this.canvas = <HTMLCanvasElement> document.getElementById("game"); // Recupere l'element du HTML avec l'identifiant "game"
         this.canvas.width = 512; // Specifie la largeur de l'element, ici 512 pixels
-        this.canvas.height = 480; // Specifie la hauteur de l'element, ici 480 pixels
+        this.canvas.height = 400; // Specifie la hauteur de l'element, ici 480 pixels
         this.context = this.canvas.getContext('2d'); // Charge le context d'affichage du canvas
 
         // Initialisation de l'image de fond
@@ -98,7 +98,7 @@ class Game {
     private startLevel() {
         // Creation de l'objet niveau
         let canvas = <HTMLCanvasElement>document.getElementById("game");
-        this.level = new Level(canvas, canvas.getContext('2d'), 25);
+        this.level = new Level(canvas, canvas.getContext('2d'), 50);
     }
 
     private loop() {

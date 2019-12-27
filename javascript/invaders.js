@@ -19,10 +19,6 @@ var Invaders = /** @class */ (function () {
         }
     }
     Invaders.prototype.shoot = function () {
-        var rand = Math.floor((Math.random() * this.tab.length) + 1);
-        var monster_pos = this.tab[rand].getPos();
-        var evil_laser = new Laser(this.canvas, this.canvas.getContext('2d'), './images/laser.png', monster_pos.getX() + (this.tab[rand].getWidth() / 2), monster_pos.getY(), true);
-        return evil_laser;
     };
     Invaders.prototype.move = function (tmp_monstres) {
         // ?

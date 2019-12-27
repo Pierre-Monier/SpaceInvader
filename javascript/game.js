@@ -9,7 +9,7 @@ var Game = /** @class */ (function () {
         // Initialisation des variables d'affichage
         this.canvas = document.getElementById("game"); // Recupere l'element du HTML avec l'identifiant "game"
         this.canvas.width = 512; // Specifie la largeur de l'element, ici 512 pixels
-        this.canvas.height = 480; // Specifie la hauteur de l'element, ici 480 pixels
+        this.canvas.height = 400; // Specifie la hauteur de l'element, ici 480 pixels
         this.context = this.canvas.getContext('2d'); // Charge le context d'affichage du canvas
         // Initialisation de l'image de fond
         this.background = new Image(); // La classe "Image" est une classe deja existante
@@ -72,7 +72,7 @@ var Game = /** @class */ (function () {
     Game.prototype.startLevel = function () {
         // Creation de l'objet niveau
         var canvas = document.getElementById("game");
-        this.level = new Level(canvas, canvas.getContext('2d'), 25);
+        this.level = new Level(canvas, canvas.getContext('2d'), 50);
     };
     Game.prototype.loop = function () {
         // Pour rappel cette methode est appele "fps" fois par seconde
