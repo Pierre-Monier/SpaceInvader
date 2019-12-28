@@ -8,3 +8,7 @@ body {
     top: 10px;*/
     padding-top: 20px;
 }
+#end{
+    transition: all 1s ease-in-out;
+    opacity: 0;
+}

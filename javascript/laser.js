@@ -18,7 +18,7 @@ var Laser = /** @class */ (function (_super) {
     function Laser(canvas, context, src, x, y, is_monster) {
         var _this = _super.call(this, canvas, context, src) || this;
         _this.is_monster = is_monster;
-        _this.speed = 30;
+        _this.speed = 20;
         _this.width = 6;
         _this.height = 20;
         _this.pos = new Vector(x, y);

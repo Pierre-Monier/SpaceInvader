@@ -13,7 +13,7 @@ class Laser extends AnimatedObject implements Speaking {
     {
         super(canvas,context,src);
         this.is_monster = is_monster;
-        this.speed = 30;
+        this.speed = 20;
         this.width = 6;
         this.height = 20;
         this.pos = new Vector(x, y);

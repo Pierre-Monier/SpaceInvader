@@ -4,7 +4,7 @@ var AnimatedObject = /** @class */ (function () {
         this.canvas = canvas;
         this.context = context;
         // Initialisation de img
-        this.img = new Image(); // La classe "Image" est une classe deja existante
+        this.img = new Image();
         this.img.src = src; // Specifie le chemin de l'image a partir de index.html
         // Initialisation de w et h et speed
         this.width = 0;
@@ -105,6 +105,15 @@ var AnimatedObject = /** @class */ (function () {
     };
     AnimatedObject.prototype.getWidth = function () {
         return this.width;
+    };
+    AnimatedObject.prototype.getSpeed = function () {
+        return this.speed;
+    };
+    AnimatedObject.prototype.getPos = function () {
+        return this.pos;
+    };
+    AnimatedObject.prototype.getDir = function () {
+        return this.dir;
     };
     return AnimatedObject;
 }());

@@ -20,7 +20,7 @@ class AnimatedObject {
             this.canvas = canvas;
             this.context = context;
             // Initialisation de img
-            this.img = new Image(); // La classe "Image" est une classe deja existante
+            this.img = new Image(); 
             this.img.src = src; // Specifie le chemin de l'image a partir de index.html
             // Initialisation de w et h et speed
             this.width = 0;
@@ -41,6 +41,7 @@ class AnimatedObject {
     protected setPosition(x : number, y : number)
     // cree un nouvel objet Vector si attr pos est nul(initialise) sinon le modifie les valeurs
             {
+                
                 if(this.pos == null){
                     this.pos = new Vector(x, y);
                 }else{
@@ -131,6 +132,18 @@ class AnimatedObject {
     getWidth()
     {
         return this.width;
+    }
+    getSpeed()
+    {
+        return this.speed;
+    }
+    getPos()
+    {
+        return this.pos
+    }
+    getDir()
+    {
+        return this.dir;
     }
     
     

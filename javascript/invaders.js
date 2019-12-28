@@ -1,13 +1,16 @@
 /// <reference path='sound.ts'/>
 /// <reference path='monster.ts'/>
 /// <reference path='laser.ts'/>
+/// <reference path='boss.ts'/>
 var Invaders = /** @class */ (function () {
     function Invaders(deca, j, nb_m, canvas, speed) {
         this.canvas = canvas;
         this.berger = 0;
         this.change_dir = false;
         this.tab = [];
+        this.bosss = [];
         this.i_tmp = deca;
+        // this.bonus = new Monster(canvas, canvas.getContext('2d'), "./images/monstre.png", this.i_tmp, (j + 5), speed);
         for (var i = 0; i < nb_m; i++) {
             var monstre = new Monster(canvas, canvas.getContext('2d'), "./images/monstre.png", this.i_tmp, j, speed);
             this.i_tmp++;
@@ -18,7 +21,14 @@ var Invaders = /** @class */ (function () {
             this.tab.push(monstre);
         }
     }
-    Invaders.prototype.shoot = function () {
+    Invaders.prototype.sendBonus = function () {
+        // if(this.bonus.getTo_delete){
+        //     this.bonus = null;
+        //     this.bonus = new Monster(this.canvas, this.canvas.getContext('2d'), "./images/monstre.png", this.i_tmp, 5, 2);
+        // }else{
+        //     this.bonus.drawObject(0, 0);
+        //     this.bonus.move_bonus(true, this.bonus.getDir().getX(), 0, 200);    
+        // }
     };
     Invaders.prototype.move = function (tmp_monstres) {
         // ?

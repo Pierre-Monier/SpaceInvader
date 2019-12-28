@@ -19,10 +19,11 @@ class Monster extends AnimatedObject  {
         this.dir = new Vector(1, 0);
         this.death_sound = new Sound('./sounds/explosion.wav');
     }
-    public move(update_dir : Boolean)
+    public move(update_dir : boolean)
     {
-        super.move(update_dir = true);
+        super.move(update_dir);
     }
+
     public drawObject(x : number, y : number)
     {
         super.drawObject(0, 0);
@@ -41,18 +42,6 @@ class Monster extends AnimatedObject  {
             }else{
                 return 1;
             }
-    }
-    getPos()
-    {
-        return this.pos
-    }
-    getWidth()
-    {
-        return this.width;
-    }
-    getDir()
-    {
-        return this.dir;
     }
     getHpos()
     {

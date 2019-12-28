@@ -27,7 +27,7 @@ var Monster = /** @class */ (function (_super) {
         return _this;
     }
     Monster.prototype.move = function (update_dir) {
-        _super.prototype.move.call(this, update_dir = true);
+        _super.prototype.move.call(this, update_dir);
     };
     Monster.prototype.drawObject = function (x, y) {
         _super.prototype.drawObject.call(this, 0, 0);
@@ -45,15 +45,6 @@ var Monster = /** @class */ (function (_super) {
         else {
             return 1;
         }
-    };
-    Monster.prototype.getPos = function () {
-        return this.pos;
-    };
-    Monster.prototype.getWidth = function () {
-        return this.width;
-    };
-    Monster.prototype.getDir = function () {
-        return this.dir;
     };
     Monster.prototype.getHpos = function () {
         return this.horizontal_pos;

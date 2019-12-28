@@ -4,20 +4,24 @@
 // Chargement des fichiers ".ts" qui seront utiles
 /// <reference path='level.ts'/>
 /// <reference path='sound.ts'/>
+/// <reference path='htmlManager.ts'/>
 
 
 class Game {
     // Attributs utiles pour l'affichage
     private canvas : HTMLCanvasElement;
     private context : CanvasRenderingContext2D;
+    private htmlManager : htmlManager;
 
     // Attribut representant l'image de fond
     private background : HTMLImageElement;
 
     // Attributs gerant l'avancement du joueur
     private score : number;
-    private death : number;
+    private vie : number;
     private niveau : number;
+    private game_over : boolean;
+    private playing : boolean;
 
     // Attribut representant le niveau courant
     private level : Level;
@@ -29,15 +33,17 @@ class Game {
         this.canvas.width = 512; // Specifie la largeur de l'element, ici 512 pixels
         this.canvas.height = 400; // Specifie la hauteur de l'element, ici 480 pixels
         this.context = this.canvas.getContext('2d'); // Charge le context d'affichage du canvas
-
+        this.htmlManager = new htmlManager('end');
         // Initialisation de l'image de fond
         this.background = new Image(); // La classe "Image" est une classe deja existante
         this.background.src = "./images/background.png"; // Specifie le chemin de l'image a partir de index.html ("./" signifie le repertoire courant)
 
         // Initialisation des variables gerant l'avancement du joueur
         this.score = 0; // Au debut... pas de points
-        this.death = 0; // Au debut... le joureur n'a jamais perdu de vie
+        this.vie = 3; // Au debut... le joureur n'a jamais perdu de vie
         this.niveau = 1; // Au debut... on commence au niveau 1
+        this.game_over = false;
+        this.playing = true;
 
 
 
@@ -54,7 +60,8 @@ class Game {
         // Cette ligne specifie que nous souhaitons appeler la methode "loop()"
         // "fps" fois par seconde. Nous specifions donc que quand "1000ms / fps" millisecondes
         // ce sont ecoulees, nous appelons la methode "loop()"
-        setInterval(() => { this.loop() }, 1000 / fps);
+
+        setInterval(() => { this.createLoop() }, 1000 / fps);
     }
 
     private registerKeyPress(){
@@ -71,12 +78,10 @@ class Game {
             // Nous allons donc effectuer des actions specifiques pour les fleches
             // et la barre d'espace
             if (keycode == 39) {
-                console.log("   -> touche 'droite'");
                 // Une fleche droite en cours de jeu, et nous appelons la methode
                 // du niveau qui gere la fleche droite
                 this.level.keyRight();
             } else if (keycode == 37) {
-                console.log("   -> touche 'gauche'")
                 // Une fleche gauche en cours de jeu, et nous appelons la methode
                 // du niveau qui gere la fleche gauche
                 this.level.keyLeft();
@@ -85,6 +90,11 @@ class Game {
                 // Une touche espace en cours de jeu, et nous appelons la methode
                 // du niveau qui gere la barre espace
                 this.level.keySpace();
+            }
+            else if (keycode == 9) {
+                // this.level.kill()
+                this.level = null;
+                this.niveau++;
             }
         } else {
             // Sinon le niveau est null alors, le joueur est dans le menu.
@@ -98,7 +108,7 @@ class Game {
     private startLevel() {
         // Creation de l'objet niveau
         let canvas = <HTMLCanvasElement>document.getElementById("game");
-        this.level = new Level(canvas, canvas.getContext('2d'), 50);
+        this.level = new Level(canvas, canvas.getContext('2d'), this.sendMonster(this.niveau), this.score, this.niveau);
     }
 
     private loop() {
@@ -108,12 +118,12 @@ class Game {
         // Nous allons preparer le canvas, en effacant les dessin qu'il avait avant
         // et en re-dessinant le fond (l'image en arriere plan)
         this.initFrame();
-
         if (this.level != null) {
             // Si le niveau est non null alors, le joueur est en train de jouer.
             // Nous allons donc effectuer une mise a jour des objets a dessiner
             // (maj des positions, de l'etat du niveau, etc) ...
             this.level.updateObjects();
+            this.score = this.level.getLevelScore();
             // ... et une fois mise a jour nous allons les dessiner
             this.level.drawObjects(0, 0);
             // Ensuite nous verifions l'etat du niveau
@@ -125,13 +135,19 @@ class Game {
                 // s'il est perdu, on revient au menu et on re-initialise le niveau
                 this.resetLevel();
             }
-        } else {
+        } else if(this.vie > 0) {
             // Sinon le niveau est null alors, le joueur est dans le menu.
             // Nous affichons donc les instructions pour commencer au niveau suivant
             this.addInstructions();
         }
         // dans tous les cas, nous affichons le niveau courant, le score courant et le nombre de parties perdues
-        this.addInformation();
+        if(this.niveau < 6 && this.vie > 0){
+            this.addInformation();
+        }else{
+            this.endGame(this.game_over);
+            this.playing = false;
+        }
+        
     }
 
     private initFrame() {
@@ -166,9 +182,8 @@ class Game {
         this.context.fillStyle = "#fff";
         // ... en Arial police 27
         this.context.font = "23px Arial";
-
         this.context.fillText("Score : "+this.score,40,60);
-        this.context.fillText("Death : "+this.death,40,90);
+        this.context.fillText("Vie restante : "+this.vie,40,90);
         this.context.fillText("Niveau : "+this.niveau,40,440);
     }
 
@@ -176,33 +191,97 @@ class Game {
     private nextLevel() {
         // Preparation du prochain niveau
         // on passe au niveau suivant
-        // (x++  equivalent a x=x+1)
         this.niveau++;
+
+
+        // if(this.niveau > 5){
+        //     this.endGame(false);
+        // }else{
+
+
         // on ajoute le score du niveau au score courant
-
-        this.score += this.score;
-
+        this.score = this.score;
         // on precise que le joueur n'est plus dans le niveau
         this.level = null;
-
         // Comme le joueur a gagne le niveau courant
         // on joue une musique de victoire
         let soundtrack : Sound = new Sound("./sounds/son_victoire.wav");
         soundtrack.playSound();
+        // }
     }
 
     private resetLevel() {
+
+        // Comme le joueur a perdu le niveau courant
+        // on augmente le nombre de parties perdues de 1
+        this.vie--;
+
+        if(this.vie < 1){
+            this.game_over = true;
+        }
         // Re-initialisation du niveau courant
         // on precise que le joueur n'est plus dans le niveau
         this.level = null;
 
-        // Comme le joueur a perdu le niveau courant
-        // on augmente le nombre de parties perdues de 1
-        // (x++  equivalent a x=x+1)
-        this.death++;
+
         // joue une musique de defaite
-        let soundtrack : Sound = new Sound("./sounds/son_defaite.wav");
-        soundtrack.playSound();
+
+        // let soundtrack : Sound = new Sound("./sounds/son_defaite.wav");
+        // soundtrack.playSound();
+
+    }
+
+    private sendMonster(niveau : number)
+    {
+        if(niveau < 3){
+            return 20;
+        }
+        if(niveau < 4){
+            return 30;
+        }
+        if(niveau < 5){
+            return 40;
+        }
+        if(niveau == 5){
+            return 3;
+        }
+    }
+
+    private endGame(game_over : boolean)
+    {
+        // victory sound
+        this.initFrame();
+        this.context.fillStyle = "#fff";
+        // ... en Arial police 27
+        this.context.font = "27px Arial";
+        this.context.textAlign = "center";
+        if(game_over){
+            this.context.fillText("Game Over",(this.canvas.width/2),150);
+            this.context.fillText("Votre score : "+this.score,(this.canvas.width/2),200);
+            this.context.font = "18px Arial"; 
+            this.context.fillText("Avoir des vies inutiliser donnent des bonus ;)",(this.canvas.width/2),233);
+            this.level = null;
+        }else{
+            this.context.fillText("Victoire !",(this.canvas.width/2),150);
+            this.context.font = "18px Arial";
+            this.context.fillText("Votre score : "+this.score,(this.canvas.width/2),200);
+            if(this.vie > 1){
+                this.context.fillText("Bonus->"+this.score+" * (nbr de vie: "+this.vie+")",(this.canvas.width/2),233);
+                this.context.font = "27px Arial";
+                this.context.fillText("Score finale : "+this.score+(this.score * this.vie),(this.canvas.width/2),299);
+            } 
+        }
+         
+        // let soundtrack : Sound = new Sound("./sounds/yeah.wav");
+        // soundtrack.playSound();
+        this.htmlManager.show();
+    }
+
+    private createLoop()
+    {
+        if(this.playing){
+            this.loop();
+        }
     }
 }
 

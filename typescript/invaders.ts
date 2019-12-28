@@ -1,9 +1,12 @@
 /// <reference path='sound.ts'/>
 /// <reference path='monster.ts'/>
 /// <reference path='laser.ts'/>
+/// <reference path='boss.ts'/>
 
 class Invaders {
     public tab: Array<Monster>;
+    public bosss: Array<Boss>;
+    private bonus : Monster
     public canvas : HTMLCanvasElement;
     private i_tmp: number;
     private change_dir : boolean;
@@ -17,21 +20,30 @@ class Invaders {
         this.berger = 0;
         this.change_dir = false;
         this.tab = [];
+        this.bosss = [];
         this.i_tmp = deca;
-        for (let i: number = 0; i < nb_m; i++) {
-            let monstre: Monster = new Monster(canvas, canvas.getContext('2d'), "./images/monstre.png", this.i_tmp, j, speed);
-            this.i_tmp++;
-            if (canvas.width / monstre.getWidth() - deca < this.i_tmp) {
-                this.i_tmp = deca;
-                j++;
+        // this.bonus = new Monster(canvas, canvas.getContext('2d'), "./images/monstre.png", this.i_tmp, (j + 5), speed);
+
+            for (let i: number = 0; i < nb_m; i++){
+                let monstre: Monster = new Monster(canvas, canvas.getContext('2d'), "./images/monstre.png", this.i_tmp, j, speed);
+                this.i_tmp++;
+                if (canvas.width / monstre.getWidth() - deca < this.i_tmp) {
+                    this.i_tmp = deca;
+                    j++;
+                }
+                this.tab.push(monstre);
             }
-            this.tab.push(monstre);
-        }
     }
 
-    public shoot()
+    public sendBonus()
     {
-
+        // if(this.bonus.getTo_delete){
+        //     this.bonus = null;
+        //     this.bonus = new Monster(this.canvas, this.canvas.getContext('2d'), "./images/monstre.png", this.i_tmp, 5, 2);
+        // }else{
+        //     this.bonus.drawObject(0, 0);
+        //     this.bonus.move_bonus(true, this.bonus.getDir().getX(), 0, 200);    
+        // }
     }
 
     public move(tmp_monstres : Array<Monster>)
@@ -46,7 +58,6 @@ class Invaders {
             old_dir = this.tab[i].getDir().getX();
             this.tab[i].move(true);
             new_dir = this.tab[i].getDir().getX();
-
             if(old_dir != new_dir){
                 current_pos_y = this.tab[i].getPos().getY();
                 if(this.change_dir == false){
@@ -60,15 +71,11 @@ class Invaders {
                     this.is_right = true;
                 }
             }
-
             if(this.tab[i].getTo_delete() == false){
                 tmp_monstres.push(this.tab[i]);
-            }  
-            
-            
+            }   
         }
         for(let x : number = 0; x< this.tab.length; x++){
-
             if(this.change_dir == true){
                 this.tab[x].getDir().setValues(0,1); 
                 if(this.tab[x].getPos().getY() >= this.Bpos_y_tmp + (this.tab[x].getHpos() * 32)){
