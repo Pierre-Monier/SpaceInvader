@@ -6,6 +6,7 @@
 /// <reference path='bonus.ts'/>
 var Level = /** @class */ (function () {
     function Level(canvas, context, nb_m, prev_score, level) {
+        var _this = this;
         this.canvas = canvas;
         this.context = context;
         this.hero = new Hero(canvas, context, './images/hero.png');
@@ -13,7 +14,7 @@ var Level = /** @class */ (function () {
         var j = 0;
         var speed;
         this.fr_shoot = 50;
-        if (level > 1) {
+        if (level > 3) {
             speed = 2;
         }
         else if (level > 3) {
@@ -35,7 +36,7 @@ var Level = /** @class */ (function () {
         this.score = prev_score;
         this.level = level;
         this.state = "En cours";
-        // setInterval(() => { this.monstres.sendBonus(canvas, context, "./images/monstre.png", 2, 1, 2) }, 1000 );
+        setInterval(function () { _this.gif(); }, 1000);
     }
     Level.prototype.updateObjects = function () {
         var tmp_shields = [];
@@ -64,21 +65,26 @@ var Level = /** @class */ (function () {
     };
     Level.prototype.checkCollision = function () {
         for (var i = 0; i < this.laser.length; i++) {
+            var _loop_1 = function (j) {
+                if (this_1.laser[i].collision(this_1.monstres.tab[j]) && this_1.laser[i].getIs_monster() === false) {
+                    var tmp_monster_1 = this_1.monstres.tab[j];
+                    this_1.addKillImg(this_1.monstres.tab[j], this_1.addPoint(this_1.monstres.tab[j].getHpos(), this_1.level));
+                    this_1.laser[i].setTo_delete(true);
+                    this_1.score += this_1.addPoint(this_1.monstres.tab[j].getHpos(), this_1.level);
+                    setTimeout(function () { tmp_monster_1.setTo_delete(true); }, 150);
+                }
+                if (this_1.laser[i].collision(this_1.hero) && this_1.laser[i].getIs_monster() === true) {
+                    this_1.hit = true;
+                }
+            };
+            var this_1 = this;
             for (var j = 0; j < this.monstres.tab.length; j++) {
-                if (this.laser[i].collision(this.monstres.tab[j]) && this.laser[i].getIs_monster() === false) {
-                    this.monstres.tab[j].setTo_delete(true);
-                    this.laser[i].setTo_delete(true);
-                    this.score += this.addPoint(this.monstres.tab[j].getHpos(), this.level);
-                }
-                if (this.laser[i].collision(this.hero) && this.laser[i].getIs_monster() === true) {
-                    this.hit = true;
-                }
+                _loop_1(j);
             }
         }
         for (var y = 0; y < this.shields.length; y++) {
             for (var i = 0; i < this.laser.length; i++) {
                 if (this.shields[y].collision(this.laser[i])) {
-                    console.log(' collision : ');
                     this.laser[i].setTo_delete(true);
                     this.shields[y].hitShield();
                     this.drawShield();
@@ -104,7 +110,7 @@ var Level = /** @class */ (function () {
         this.hero.drawObject();
         // All monsters
         for (var i = 0; i < this.monstres.tab.length; i++) {
-            this.monstres.tab[i].drawObject(0, 0);
+            this.monstres.tab[i].drawObject(this.monstres.tab[i].getXsprite(), 0);
         }
         // All lasers
         for (var i = 0; i < this.laser.length; i++) {
@@ -118,45 +124,68 @@ var Level = /** @class */ (function () {
             this.shields[i].drawObject(0, 0);
         }
     };
-    Level.prototype.addPoint = function (Hpos, level) {
-        if (level < 3) {
+    Level.prototype.addPoint = function (Hpos, niveau) {
+        if (niveau < 3) {
             switch (Hpos) {
                 case 0:
-                    return 5;
+                    return 25;
                 case 1:
-                    return 1;
+                    return 25;
             }
         }
-        if (level < 4) {
+        else if (niveau < 5) {
             switch (Hpos) {
                 case 0:
-                    return 10;
+                    return 50;
                 case 1:
-                    return 5;
+                    return 50;
                 case 2:
-                    return 1;
-            }
-        }
-        if (level < 5) {
-            switch (Hpos) {
-                case 0:
-                    return 15;
-                case 1:
-                    return 10;
-                case 2:
-                    return 5;
+                    return 25;
                 case 3:
-                    return 1;
+                    return 25;
             }
         }
-        if (level == 5) {
+        else {
             switch (Hpos) {
                 case 0:
-                    return 10;
+                    return 100;
                 case 1:
-                    return 5;
+                    return 50;
                 case 2:
-                    return 1;
+                    return 50;
+                case 3:
+                    return 25;
+                case 4:
+                    return 25;
+            }
+        }
+    };
+    Level.prototype.addKillImg = function (monstre, point) {
+        var new_img;
+        switch (point) {
+            case 25:
+                new_img = './images/point_25.png';
+                break;
+            case 50:
+                new_img = './images/point_50.png';
+                break;
+            case 100:
+                new_img = './images/point_100.png';
+                break;
+            case 200:
+                new_img = './images/point_200.png';
+                break;
+        }
+        monstre.getImg().src = new_img;
+        monstre.drawObject(0, 0);
+    };
+    Level.prototype.gif = function () {
+        for (var i = 0; i < this.monstres.tab.length; i++) {
+            if (this.monstres.tab[i].getXsprite() == 0) {
+                this.monstres.tab[i].setXsprite(30);
+            }
+            else {
+                this.monstres.tab[i].setXsprite(0);
             }
         }
     };

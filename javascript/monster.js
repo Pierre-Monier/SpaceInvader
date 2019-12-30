@@ -24,13 +24,15 @@ var Monster = /** @class */ (function (_super) {
         _this.pos = new Vector(i_tmp * _this.width, j * _this.height);
         _this.dir = new Vector(1, 0);
         _this.death_sound = new Sound('./sounds/explosion.wav');
+        _this.x_sprite = 0;
+        _this.y_sprite = 0;
         return _this;
     }
     Monster.prototype.move = function (update_dir) {
         _super.prototype.move.call(this, update_dir);
     };
     Monster.prototype.drawObject = function (x, y) {
-        _super.prototype.drawObject.call(this, 0, 0);
+        _super.prototype.drawObject.call(this, x, y);
     };
     Monster.prototype.getRandomInt = function (min, max) {
         min = Math.ceil(min);
@@ -48,6 +50,12 @@ var Monster = /** @class */ (function (_super) {
     };
     Monster.prototype.getHpos = function () {
         return this.horizontal_pos;
+    };
+    Monster.prototype.getXsprite = function () {
+        return this.x_sprite;
+    };
+    Monster.prototype.setXsprite = function (x) {
+        this.x_sprite = x;
     };
     return Monster;
 }(AnimatedObject));

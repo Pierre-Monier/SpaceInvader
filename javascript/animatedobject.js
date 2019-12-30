@@ -115,5 +115,8 @@ var AnimatedObject = /** @class */ (function () {
     AnimatedObject.prototype.getDir = function () {
         return this.dir;
     };
+    AnimatedObject.prototype.getImg = function () {
+        return this.img;
+    };
     return AnimatedObject;
 }());

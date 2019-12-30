@@ -25,7 +25,7 @@ class Invaders {
         // this.bonus = new Monster(canvas, canvas.getContext('2d'), "./images/monstre.png", this.i_tmp, (j + 5), speed);
 
             for (let i: number = 0; i < nb_m; i++){
-                let monstre: Monster = new Monster(canvas, canvas.getContext('2d'), "./images/monstre.png", this.i_tmp, j, speed);
+                let monstre: Monster = new Monster(canvas, canvas.getContext('2d'), "./images/invader1.png", this.i_tmp, j, speed);
                 this.i_tmp++;
                 if (canvas.width / monstre.getWidth() - deca < this.i_tmp) {
                     this.i_tmp = deca;

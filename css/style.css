@@ -11,4 +11,19 @@ body {
 #end{
     transition: all 1s ease-in-out;
     opacity: 0;
+    display: inline-block;
+}
+/* @font-face {
+    font-family: arcadeclassicregular;
+    src: url('http://localhost/SpaceInvader/css/font/ARCADECLASSIC.TTF') format('truetype'),
+} */
+h1{
+    font-family: 'arcadeclassicregular';
+}
+.hide-btn{
+    opacity: 0 !important;
+    display: none !important;
+}
+.replay-btn{
+    opacity: 1;
 }

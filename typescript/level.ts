@@ -33,7 +33,7 @@ class Level {
         let j : number = 0;
         let speed : number
         this.fr_shoot = 50;
-        if(level > 1){
+        if(level > 3){
             speed = 2
         }else if(level >3){
             this.fr_shoot = 2;
@@ -54,7 +54,7 @@ class Level {
         this.score = prev_score;
         this.level = level;
         this.state = "En cours";
-        // setInterval(() => { this.monstres.sendBonus(canvas, context, "./images/monstre.png", 2, 1, 2) }, 1000 );
+        setInterval(() => { this.gif() }, 1000 );
     }  
 
     public updateObjects()
@@ -87,10 +87,12 @@ class Level {
     {
         for(let i : number = 0; i< this.laser.length; i++){
             for(let j : number = 0; j< this.monstres.tab.length; j++){
-                    if(this.laser[i].collision(this.monstres.tab[j]) && this.laser[i].getIs_monster() === false){
-                            this.monstres.tab[j].setTo_delete(true);
+                    if(this.laser[i].collision(this.monstres.tab[j]) && this.laser[i].getIs_monster() === false){        
+                            let tmp_monster : Monster = this.monstres.tab[j];
+                            this.addKillImg(this.monstres.tab[j], this.addPoint(this.monstres.tab[j].getHpos(), this.level));
                             this.laser[i].setTo_delete(true);
-                            this.score += this.addPoint(this.monstres.tab[j].getHpos(), this.level);  
+                            this.score += this.addPoint(this.monstres.tab[j].getHpos(), this.level);
+                            setTimeout(function(){ tmp_monster.setTo_delete(true); }, 150);          
                     }
                     if(this.laser[i].collision(this.hero) && this.laser[i].getIs_monster() === true){
                         this.hit = true;
@@ -100,7 +102,6 @@ class Level {
         for(let y : number = 0; y < this.shields.length; y++){
             for(let i : number = 0; i < this.laser.length; i++){
                 if(this.shields[y].collision(this.laser[i])){
-                    console.log(' collision : ');
                     this.laser[i].setTo_delete(true);
                     this.shields[y].hitShield();
                     this.drawShield();
@@ -115,6 +116,7 @@ class Level {
 
     // end FOR
     }
+
     private checkVictory()
     {
         if(this.hit == true){
@@ -130,7 +132,7 @@ class Level {
         this.hero.drawObject();
         // All monsters
         for(let i : number = 0; i< this.monstres.tab.length; i++){
-            this.monstres.tab[i].drawObject(0, 0);
+            this.monstres.tab[i].drawObject(this.monstres.tab[i].getXsprite(), 0);      
         }
         // All lasers
         for(let i : number = 0; i< this.laser.length; i++){
@@ -147,46 +149,71 @@ class Level {
         }
     }
 
-    public addPoint(Hpos : number, level : number)
+    public addPoint(Hpos : number, niveau : number)
     {
-        if(level < 3){
+        if(niveau < 3){
             switch(Hpos){
                 case 0:
-                    return 5;
+                    return 25;
                 case 1:
-                    return 1;
+                    return 25;
             }
-        }
-        if(level < 4){
+        }else if(niveau < 5){
             switch(Hpos){
                 case 0:
-                    return 10;
+                    return 50;
                 case 1:
-                    return 5;
+                    return 50;
                 case 2:
-                    return 1;
-            }
-        }
-        if(level < 5){
-            switch(Hpos){
-                case 0:
-                    return 15;
-                case 1:
-                    return 10;
-                case 2:
-                    return 5;
+                    return 25;
                 case 3:
-                    return 1;
+                    return 25;
             }
-        }
-        if(level == 5){
+        }else{
             switch(Hpos){
                 case 0:
-                    return 10;
+                    return 100;
                 case 1:
-                    return 5;
+                    return 50;
                 case 2:
-                    return 1;
+                    return 50;
+                case 3:
+                    return 25;
+                case 4:
+                    return 25;
+            } 
+        }
+    }
+
+    public addKillImg(monstre : Monster, point : number)
+    {
+        let new_img : string;
+        switch(point){
+            case 25:
+                new_img = './images/point_25.png';
+                break;
+            case 50:
+                new_img = './images/point_50.png';
+                break;
+            case 100:
+                new_img = './images/point_100.png';
+                break;
+            case 200:
+                new_img = './images/point_200.png';
+                break;
+        } 
+        monstre.getImg().src = new_img;
+        monstre.drawObject(0,0);
+
+    }
+
+    gif()
+    {
+        for(let i : number = 0; i<this.monstres.tab.length; i++){
+            if(this.monstres.tab[i].getXsprite() == 0){
+                this.monstres.tab[i].setXsprite(30);
+            }else{
+                this.monstres.tab[i].setXsprite(0);
             }
         }
     }

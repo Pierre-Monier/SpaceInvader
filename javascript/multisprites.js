@@ -20,7 +20,8 @@ var MultiSprites = /** @class */ (function (_super) {
         _this._sprite_pos = null;
         return _this;
     }
-    MultiSprites.prototype.setSpritePosition = function (pos) {
+    MultiSprites.prototype.setSpritePosition = function (x, y) {
+        var pos = new Vector(x, y);
         this._sprite_pos = pos;
     };
     MultiSprites.prototype.drawObject = function (x, y) {

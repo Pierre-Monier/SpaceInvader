@@ -4,6 +4,8 @@
 		<meta charset="UTF-8">
 		<title>Jeu</title>
 		<link rel="stylesheet" href="./css/style.css" />
+		<link rel="stylesheet" href="./font/stylesheet.css"/>
+
 		<script type="text/javascript" src="./javascript/vector.js"></script>
 		<script type="text/javascript" src="./javascript/sound.js"></script>
 		<script type="text/javascript" src="./javascript/animatedobject.js"></script>
@@ -24,10 +26,9 @@
 		<canvas id="game"></canvas>
 		<div class="" id="end">
 			<label for="">Enter your name
-			<input type="text" name="name" id=""></label>
-			<button>Sub</button>
-			<button onclick="location.reload()">Replay</button>
+			<input type="text" name="player" id=""></label>
+			<button id="sub">Sub</button>
+			<button class="replay-btn hide-btn"onclick="location.reload()">Replay</button>
 		</div>
-		
 	</body>
 </html>

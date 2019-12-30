@@ -3,6 +3,8 @@
 class Monster extends AnimatedObject  {
     public death_sound : Sound;
     private horizontal_pos : number;
+    private x_sprite : number;
+    private y_sprite : number;
 
     constructor(canvas : HTMLCanvasElement,
         context : CanvasRenderingContext2D,
@@ -18,6 +20,9 @@ class Monster extends AnimatedObject  {
         
         this.dir = new Vector(1, 0);
         this.death_sound = new Sound('./sounds/explosion.wav');
+        this.x_sprite = 0;
+        this.y_sprite = 0;
+
     }
     public move(update_dir : boolean)
     {
@@ -26,8 +31,9 @@ class Monster extends AnimatedObject  {
 
     public drawObject(x : number, y : number)
     {
-        super.drawObject(0, 0);
+        super.drawObject(x, y);
     }
+
     public getRandomInt(min : number, max : number) 
     {
         min = Math.ceil(min);
@@ -46,6 +52,14 @@ class Monster extends AnimatedObject  {
     getHpos()
     {
         return this.horizontal_pos;
+    }
+    getXsprite()
+    {
+        return this.x_sprite;
+    }
+    setXsprite(x : number)
+    {
+        this.x_sprite = x;
     }
 
 }

@@ -92,11 +92,11 @@ class AnimatedObject {
 // A decommenter en temps voulu
     public drawObject(x : number, y : number)
     {
-        this.context.drawImage(this.img,                 // image a afficher
-                               x, y,                     // rect A, coin haut gauche
-                               this.width, this.height,  // rect A, taille
-                               this.pos.getX(), this.pos.getY(),   // rect B, coin haut gauche
-                               this.width, this.height); // rect B, taille
+            this.context.drawImage(this.img,                 // image a afficher
+                x, y,                     // rect A, coin haut gauche
+                this.width, this.height,  // rect A, taille
+                this.pos.getX(), this.pos.getY(),   // rect B, coin haut gauche
+                this.width, this.height); // rect B, taille
     }
     public getRandomInt(min : number, max : number) 
     {
@@ -144,6 +144,10 @@ class AnimatedObject {
     getDir()
     {
         return this.dir;
+    }
+    getImg()
+    {
+        return this.img;
     }
     
     

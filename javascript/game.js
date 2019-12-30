@@ -12,7 +12,7 @@ var Game = /** @class */ (function () {
         this.canvas.width = 512; // Specifie la largeur de l'element, ici 512 pixels
         this.canvas.height = 400; // Specifie la hauteur de l'element, ici 480 pixels
         this.context = this.canvas.getContext('2d'); // Charge le context d'affichage du canvas
-        this.htmlManager = new htmlManager('end');
+        this.htmlManager = new htmlManager('end', 'sub');
         // Initialisation de l'image de fond
         this.background = new Image(); // La classe "Image" est une classe deja existante
         this.background.src = "./images/background.png"; // Specifie le chemin de l'image a partir de index.html ("./" signifie le repertoire courant)
@@ -22,6 +22,8 @@ var Game = /** @class */ (function () {
         this.niveau = 1; // Au debut... on commence au niveau 1
         this.game_over = false;
         this.playing = true;
+        this.beguining = true;
+        this.player_score = [];
         // Initialisation relative au niveau courant
         this.level = null; // Au debut... le joueur ne commence pas dans un niveau, il commence avec le menu. Donc pas de niveau.
         // Cette methode permet a notre classe de s'abonner aux evenements clavier
@@ -33,6 +35,7 @@ var Game = /** @class */ (function () {
         // "fps" fois par seconde. Nous specifions donc que quand "1000ms / fps" millisecondes
         // ce sont ecoulees, nous appelons la methode "loop()"
         setInterval(function () { _this.createLoop(); }, 1000 / fps);
+        // this.createLoop();
     }
     Game.prototype.registerKeyPress = function () {
         var _this = this;
@@ -64,14 +67,16 @@ var Game = /** @class */ (function () {
             }
             else if (keycode == 9) {
                 // this.level.kill()
-                this.level = null;
-                this.niveau++;
+                this.level.kill();
             }
         }
         else {
             // Sinon le niveau est null alors, le joueur est dans le menu.
             // Pour commencer un niveau le joueur doit appuyer sur la touche entree
             if (keycode == 13) {
+                if (this.beguining) {
+                    this.beguining = false;
+                }
                 this.startLevel();
             }
         }
@@ -112,7 +117,7 @@ var Game = /** @class */ (function () {
             this.addInstructions();
         }
         // dans tous les cas, nous affichons le niveau courant, le score courant et le nombre de parties perdues
-        if (this.niveau < 6 && this.vie > 0) {
+        if (this.vie > 0) {
             this.addInformation();
         }
         else {
@@ -133,31 +138,32 @@ var Game = /** @class */ (function () {
         this.context.drawImage(this.background, 0, 0);
     };
     Game.prototype.addInstructions = function () {
-        // Affichage des instructions pour commencer au niveau suivant
-        // ... en blanc
-        this.context.fillStyle = "#fff";
-        // ... en Arial police 27
-        this.context.font = "27px Arial";
-        this.context.fillText("Niveau " + this.niveau, 150, 210);
-        this.context.fillText("Appuyer sur Entree pour commencer !", 45, 250);
+        if (!this.beguining) {
+            // Affichage des instructions pour commencer au niveau suivant
+            // ... en blanc
+            this.context.fillStyle = "#fff";
+            this.context.font = "27px arcadeclassicregular";
+            this.context.textAlign = "center";
+            this.context.fillText("Level " + this.niveau, (this.canvas.width / 2), 210);
+            this.context.fillText("Press Enter to Play !", (this.canvas.width / 2), 250);
+        }
     };
     Game.prototype.addInformation = function () {
         // Affichage des informations sur la session du joueur
         // ... en blanc
         this.context.fillStyle = "#fff";
-        // ... en Arial police 27
-        this.context.font = "23px Arial";
-        this.context.fillText("Score : " + this.score, 40, 60);
-        this.context.fillText("Vie restante : " + this.vie, 40, 90);
-        this.context.fillText("Niveau : " + this.niveau, 40, 440);
+        this.context.font = "18px arcadeclassicregular";
+        this.context.textAlign = "left";
+        if (!this.beguining) {
+            this.context.fillText("Score : " + this.score, (this.canvas.width / 12), 60);
+            this.context.fillText("Life : x" + this.vie, (this.canvas.width / 12), 90);
+            this.context.fillText("Level : " + this.niveau, (this.canvas.width / 12), 440);
+        }
     };
     Game.prototype.nextLevel = function () {
         // Preparation du prochain niveau
         // on passe au niveau suivant
         this.niveau++;
-        // if(this.niveau > 5){
-        //     this.endGame(false);
-        // }else{
         // on ajoute le score du niveau au score courant
         this.score = this.score;
         // on precise que le joueur n'est plus dans le niveau
@@ -186,48 +192,93 @@ var Game = /** @class */ (function () {
         if (niveau < 3) {
             return 20;
         }
-        if (niveau < 4) {
-            return 30;
-        }
-        if (niveau < 5) {
+        else if (niveau < 5) {
             return 40;
         }
-        if (niveau == 5) {
-            return 3;
+        else {
+            return 50;
         }
     };
     Game.prototype.endGame = function (game_over) {
         // victory sound
         this.initFrame();
-        this.context.fillStyle = "#fff";
-        // ... en Arial police 27
-        this.context.font = "27px Arial";
+        this.context.fillStyle = "#ff0000";
+        this.context.font = "36px arcadeclassicregular";
         this.context.textAlign = "center";
+        var img = document.getElementById('game_over');
         if (game_over) {
-            this.context.fillText("Game Over", (this.canvas.width / 2), 150);
-            this.context.fillText("Votre score : " + this.score, (this.canvas.width / 2), 200);
-            this.context.font = "18px Arial";
-            this.context.fillText("Avoir des vies inutiliser donnent des bonus ;)", (this.canvas.width / 2), 233);
+            this.context.fillText("GAME", (this.canvas.width / 2), 150);
+            this.context.fillText("OVER", (this.canvas.width / 2), 180);
+            this.context.font = "27px arcadeclassicregular";
+            this.context.fillStyle = "#fff";
+            this.context.fillText("Your Score : " + this.score, (this.canvas.width / 2), 250);
+            this.context.font = "18px arcadeclassicregular";
+            this.context.fillText("Hit the Replay button to replay", (this.canvas.width / 2), 300);
             this.level = null;
-        }
-        else {
-            this.context.fillText("Victoire !", (this.canvas.width / 2), 150);
-            this.context.font = "18px Arial";
-            this.context.fillText("Votre score : " + this.score, (this.canvas.width / 2), 200);
-            if (this.vie > 1) {
-                this.context.fillText("Bonus->" + this.score + " * (nbr de vie: " + this.vie + ")", (this.canvas.width / 2), 233);
-                this.context.font = "27px Arial";
-                this.context.fillText("Score finale : " + this.score + (this.score * this.vie), (this.canvas.width / 2), 299);
-            }
         }
         // let soundtrack : Sound = new Sound("./sounds/yeah.wav");
         // soundtrack.playSound();
         this.htmlManager.show();
     };
+    Game.prototype.homeScreen = function () {
+        var _this = this;
+        this.initFrame();
+        this.context.fillStyle = "#fff";
+        this.context.font = "36px arcadeclassicregular";
+        this.context.textAlign = "center";
+        this.context.fillText("Top Player : ", (this.canvas.width / 2), 50);
+        this.context.font = "27px arcadeclassicregular";
+        this.context.textAlign = "left";
+        this.htmlManager.getFromBack('http://localhost/SpaceInvader/serv/get.php', function (score) {
+            for (var i = 0; i < 5; i++) {
+                if (score[i]) {
+                    _this.player_score.push((i + 1) + "- " + score[i].player + " : " + score[i].score);
+                }
+                else {
+                    _this.player_score.push((i + 1) + "- ");
+                }
+            }
+        });
+        if (this.player_score[0]) {
+            var y = 100;
+            for (var i = 0; i < 5; i++) {
+                this.context.fillText(this.player_score[i], (this.canvas.width / 4), y);
+                y += 40;
+            }
+        }
+        else {
+            this.context.fillText("Wait...", (this.canvas.width / 4), 100);
+        }
+        this.context.font = "36px arcadeclassicregular";
+        this.context.fillText("Press Enter to Play ->", (this.canvas.width / 6), 350);
+    };
     Game.prototype.createLoop = function () {
-        if (this.playing) {
+        if (this.playing && !this.beguining) {
             this.loop();
         }
+        if (this.beguining) {
+            this.homeScreen();
+        }
+    };
+    Game.prototype.getScore = function () { return this.score; };
+    Game.prototype.getM = function () { return this.htmlManager; };
+    Game.prototype.sendDbPlayer = function () {
+        var _this = this;
+        this.htmlManager.initAjax(false);
+        if (this.htmlManager.getInput().value.length === 0) {
+            this.htmlManager.getInput().value = "Timothy";
+        }
+        console.log('http://localhost/SpaceInvader/serv/add.php?player=' + this.htmlManager.getInput().value + "&score=" + this.score);
+        this.htmlManager.getAjax().open("GET", 'http://localhost/SpaceInvader/serv/add.php?player=' + this.htmlManager.getInput().value + "&score=" + this.score, true);
+        this.htmlManager.getAjax().send();
+        this.htmlManager.getAjax().onreadystatechange = function () {
+            if (_this.htmlManager.getAjax().readyState == 4 && _this.htmlManager.getAjax().status == 200) {
+                _this.htmlManager.Error();
+            }
+            else if (_this.htmlManager.getAjax().status != 200) {
+                _this.htmlManager.Nice();
+            }
+        };
     };
     return Game;
 }());
@@ -236,4 +287,7 @@ var Game = /** @class */ (function () {
 window.onload = function () {
     // Creation du jeu dont le rafraichissement s'effectuera 30 fois par seconde
     var jeu = new Game(30);
+    jeu.getM().getSub().onclick = function () {
+        jeu.sendDbPlayer();
+    };
 };

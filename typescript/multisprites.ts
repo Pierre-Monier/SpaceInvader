@@ -4,7 +4,7 @@
 class MultiSprites extends AnimatedObject
 {
     
-    private _sprite_pos : Vector;
+    public _sprite_pos : Vector;
 
     constructor(canvas : HTMLCanvasElement,
         context : CanvasRenderingContext2D,
@@ -13,8 +13,9 @@ class MultiSprites extends AnimatedObject
         super(canvas,context,src);
         this._sprite_pos = null;
     }
-    protected  setSpritePosition(pos :Vector)
+    public  setSpritePosition(x : number, y : number)
     {
+        let pos : Vector = new Vector(x,y);
         this._sprite_pos = pos;
     }
     public  drawObject(x : number, y : number)
