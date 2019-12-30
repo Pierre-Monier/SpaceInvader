@@ -10,7 +10,6 @@ class Sound {
     constructor(src : string) {
         this.son = new Audio(src);
     }
-
     public playSound() {
         this.son.play();
     }

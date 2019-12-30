@@ -53,7 +53,7 @@ class htmlManager{
         let text : Text = document.createTextNode("Your score has been saved correctly ;)"); 
         nice.append(text);
         this.div.append(nice);
-        // setTimeout(() => { location.reload(); }, 3000);
+        setTimeout(() => { location.reload(); }, 1500);
     }
 
     Error()
@@ -63,7 +63,7 @@ class htmlManager{
         let text : Text = document.createTextNode("Sorry, but there is a problem and your score can't be saved :("); 
         error.append(text);
         this.div.append(error);
-        document.querySelector('.replay-btn').classList.remove('hide-btn')
+        document.querySelector('.replay-btn').classList.remove('hide-btn');
     }
 
     getInput(){return this.input;}

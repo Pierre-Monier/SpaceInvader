@@ -37,7 +37,7 @@ var htmlManager = /** @class */ (function () {
         var text = document.createTextNode("Your score has been saved correctly ;)");
         nice.append(text);
         this.div.append(nice);
-        // setTimeout(() => { location.reload(); }, 3000);
+        setTimeout(function () { location.reload(); }, 1500);
     };
     htmlManager.prototype.Error = function () {
         var error = document.createElement('p');

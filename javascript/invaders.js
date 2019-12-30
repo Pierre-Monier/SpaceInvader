@@ -12,7 +12,7 @@ var Invaders = /** @class */ (function () {
         this.i_tmp = deca;
         // this.bonus = new Monster(canvas, canvas.getContext('2d'), "./images/monstre.png", this.i_tmp, (j + 5), speed);
         for (var i = 0; i < nb_m; i++) {
-            var monstre = new Monster(canvas, canvas.getContext('2d'), "./images/invader1.png", this.i_tmp, j, speed);
+            var monstre = new Monster(canvas, canvas.getContext('2d'), this.MonstreImg(nb_m, j), this.i_tmp, j, speed);
             this.i_tmp++;
             if (canvas.width / monstre.getWidth() - deca < this.i_tmp) {
                 this.i_tmp = deca;
@@ -21,6 +21,44 @@ var Invaders = /** @class */ (function () {
             this.tab.push(monstre);
         }
     }
+    Invaders.prototype.MonstreImg = function (nb_m, j) {
+        if (nb_m == 20) {
+            return './images/invader1.png';
+        }
+        if (nb_m == 40) {
+            switch (j) {
+                case 0:
+                    return './images/invader2.png';
+                case 1:
+                    return './images/invader2.png';
+                default:
+                    return './images/invader1.png';
+            }
+        }
+        if (nb_m == 50) {
+            switch (j) {
+                case 0:
+                    return './images/invader3.png';
+                case 1:
+                    return './images/invader2.png';
+                case 2:
+                    return './images/invader2.png';
+                default:
+                    return './images/invader1.png';
+            }
+        }
+    };
+    Invaders.prototype.sendLaser = function (rand) {
+        if (rand <= 20) {
+            return './images/laser.png';
+        }
+        if (rand <= 40 && rand > 20) {
+            return './images/laser2.png';
+        }
+        if (rand <= 50 && rand > 40) {
+            return './images/laser3.png';
+        }
+    };
     Invaders.prototype.sendBonus = function () {
         // if(this.bonus.getTo_delete){
         //     this.bonus = null;

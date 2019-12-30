@@ -13,12 +13,15 @@ var Level = /** @class */ (function () {
         var deca = 4;
         var j = 0;
         var speed;
-        this.fr_shoot = 50;
+        this.fr_shoot = 100;
         if (level > 3) {
             speed = 2;
         }
         else if (level > 3) {
-            this.fr_shoot = 2;
+            this.fr_shoot = 50;
+        }
+        else if (level > 5) {
+            this.fr_shoot = 20;
         }
         else {
             speed = 1;
@@ -36,6 +39,9 @@ var Level = /** @class */ (function () {
         this.score = prev_score;
         this.level = level;
         this.state = "En cours";
+        this.music = new Sound('./sounds/bg.mp3');
+        this.music.getSon().playbackRate = 0.80;
+        this.music.playSound();
         setInterval(function () { _this.gif(); }, 1000);
     }
     Level.prototype.updateObjects = function () {
@@ -203,13 +209,13 @@ var Level = /** @class */ (function () {
     Level.prototype.monsterAttack = function () {
         var rand = Math.floor((Math.random() * this.monstres.tab.length));
         var monster_pos = this.monstres.tab[rand].getPos();
-        var evil_laser = new Laser(this.canvas, this.canvas.getContext('2d'), './images/laser.png', monster_pos.getX() + (this.monstres.tab[rand].getWidth() / 2), monster_pos.getY(), true);
+        var evil_laser = new Laser(this.canvas, this.canvas.getContext('2d'), this.monstres.sendLaser(rand), monster_pos.getX() + (this.monstres.tab[rand].getWidth() / 2), monster_pos.getY(), true, this.level);
         evil_laser.soundtrack.playSound();
         this.laser.push(evil_laser);
     };
     Level.prototype.keySpace = function () {
         var current_hero_pos = this.hero.getPos();
-        var laser = new Laser(this.canvas, this.context, './images/laser.png', current_hero_pos.getX() + (this.hero.getWidth() / 2), current_hero_pos.getY(), false);
+        var laser = new Laser(this.canvas, this.context, './images/laser.png', current_hero_pos.getX() + (this.hero.getWidth() / 2), current_hero_pos.getY(), false, this.level);
         laser.soundtrack.playSound();
         this.laser.push(laser);
     };
@@ -219,6 +225,7 @@ var Level = /** @class */ (function () {
     Level.prototype.getLevelState = function () {
         return this.state; // TODO
     };
+    Level.prototype.getMusic = function () { return this.music; };
     Level.prototype.kill = function () {
         this.hit = true;
     };

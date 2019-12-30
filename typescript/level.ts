@@ -22,6 +22,8 @@ class Level {
     // etat du level
     private state : string;
 
+    private music : Sound;
+
     constructor(canvas : HTMLCanvasElement,
                 context : CanvasRenderingContext2D,
                 nb_m : number, prev_score : number, level : number)
@@ -32,11 +34,13 @@ class Level {
         let deca : number = 4;
         let j : number = 0;
         let speed : number
-        this.fr_shoot = 50;
+        this.fr_shoot = 100;
         if(level > 3){
             speed = 2
-        }else if(level >3){
-            this.fr_shoot = 2;
+        }else if(level > 3){
+            this.fr_shoot = 50;
+        }else if(level > 5){
+            this.fr_shoot = 20;
         }
         else{
             speed = 1
@@ -54,6 +58,10 @@ class Level {
         this.score = prev_score;
         this.level = level;
         this.state = "En cours";
+
+        this.music = new Sound('./sounds/bg.mp3');
+        this.music.getSon().playbackRate = 0.80; 
+        this.music.playSound();
         setInterval(() => { this.gif() }, 1000 );
     }  
 
@@ -237,14 +245,15 @@ class Level {
     {
         let rand = Math.floor((Math.random() * this.monstres.tab.length));
         let monster_pos = this.monstres.tab[rand].getPos();
-        let evil_laser : Laser = new Laser(this.canvas, this.canvas.getContext('2d'), './images/laser.png', monster_pos.getX() + (this.monstres.tab[rand].getWidth()/2), monster_pos.getY(), true)
+        let evil_laser : Laser = new Laser(this.canvas, this.canvas.getContext('2d'), this.monstres.sendLaser(rand), monster_pos.getX() + (this.monstres.tab[rand].getWidth()/2), monster_pos.getY(), true, this.level)
         evil_laser.soundtrack.playSound();
         this.laser.push(evil_laser);
     }
+
     public keySpace() 
     {
         let current_hero_pos : Vector = this.hero.getPos();
-        let laser : Laser = new Laser(this.canvas, this.context, './images/laser.png', current_hero_pos.getX() + (this.hero.getWidth()/2), current_hero_pos.getY(), false)
+        let laser : Laser = new Laser(this.canvas, this.context, './images/laser.png', current_hero_pos.getX() + (this.hero.getWidth()/2), current_hero_pos.getY(), false, this.level)
         laser.soundtrack.playSound();
         this.laser.push(laser);  
     }
@@ -256,6 +265,7 @@ class Level {
     public getLevelState() : string {
         return this.state; // TODO
     }
+    public getMusic(){return this.music;}
 
     public kill()
     {

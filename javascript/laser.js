@@ -15,12 +15,23 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var Laser = /** @class */ (function (_super) {
     __extends(Laser, _super);
-    function Laser(canvas, context, src, x, y, is_monster) {
+    function Laser(canvas, context, src, x, y, is_monster, level) {
         var _this = _super.call(this, canvas, context, src) || this;
         _this.is_monster = is_monster;
-        _this.speed = 20;
-        _this.width = 6;
-        _this.height = 20;
+        if (is_monster && level > 6) {
+            _this.speed = 30;
+        }
+        else {
+            _this.speed = 20;
+        }
+        if (src === './images/laser3.png') {
+            _this.width = 48;
+            _this.height = 14;
+        }
+        else {
+            _this.width = 6;
+            _this.height = 20;
+        }
         _this.pos = new Vector(x, y);
         if (_this.is_monster === false) {
             _this.dir = new Vector(0, -1);
@@ -28,7 +39,7 @@ var Laser = /** @class */ (function (_super) {
         else {
             _this.dir = new Vector(0, 1);
         }
-        _this.soundtrack = new Sound('./sounds/shoot.wav');
+        _this.soundtrack = new Sound(_this.getSoundFile(src));
         _this.soundtrack.getSon().volume = 0.5;
         return _this;
     }
@@ -44,6 +55,19 @@ var Laser = /** @class */ (function (_super) {
     };
     Laser.prototype.getIs_monster = function () {
         return this.is_monster;
+    };
+    Laser.prototype.getSoundFile = function (src) {
+        if (this.is_monster) {
+            switch (src) {
+                case './images/laser3.png':
+                    return './sounds/evil_laser2.mp3';
+                default:
+                    return './sounds/evil_laser1.mp3';
+            }
+        }
+        else {
+            return './sounds/shoot.wav';
+        }
     };
     return Laser;
 }(AnimatedObject));

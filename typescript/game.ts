@@ -23,6 +23,8 @@ class Game {
     private game_over : boolean;
     private playing : boolean;
     private beguining : boolean;
+    private win : boolean;
+
     private player_score : Array<string>;
    // Attribut representant le niveau courant
     private level : Level;
@@ -46,7 +48,8 @@ class Game {
         this.game_over = false;
         this.playing = true;
         this.beguining = true; 
-        this.player_score = [];   
+        this.player_score = [];  
+        this.win = null; 
         // Initialisation relative au niveau courant
         this.level = null // Au debut... le joueur ne commence pas dans un niveau, il commence avec le menu. Donc pas de niveau.
 
@@ -91,8 +94,8 @@ class Game {
                 this.level.keySpace();
             }
             else if (keycode == 9) {
-                // this.level.kill()
-                this.level.kill();
+                // this.level.kill();
+                this.vie--;
             }
         } else {
             // Sinon le niveau est null alors, le joueur est dans le menu.
@@ -139,7 +142,7 @@ class Game {
         } else if(this.vie > 0) {
             // Sinon le niveau est null alors, le joueur est dans le menu.
             // Nous affichons donc les instructions pour commencer au niveau suivant
-            this.addInstructions();
+            this.addInstructions(this.win);
         }
         // dans tous les cas, nous affichons le niveau courant, le score courant et le nombre de parties perdues
         if(this.vie > 0){
@@ -166,16 +169,20 @@ class Game {
         this.context.drawImage(this.background, 0, 0);    
     }
 
-    private addInstructions() {
+    private addInstructions(win : boolean) {
         if(!this.beguining){
-            // Affichage des instructions pour commencer au niveau suivant
-            // ... en blanc
             this.context.fillStyle = "#fff";
             this.context.font = "27px arcadeclassicregular";
             this.context.textAlign = "center";
-
-            this.context.fillText("Level "+this.niveau,(this.canvas.width/2),210); 
-            this.context.fillText("Press Enter to Play !",(this.canvas.width/2),250);
+            this.context.font = "36px";
+            this.context.textAlign = "center";
+            if(win){
+                this.context.fillText("You   Win !",(this.canvas.width/2),160);
+            }else{
+                this.context.fillText("You   Died !",(this.canvas.width/2),160);
+            }
+            this.context.fillText("Level  "+this.niveau,(this.canvas.width/2),210); 
+            this.context.fillText("Press  Enter  to  Play !",(this.canvas.width/2),250);
         }
          
     }
@@ -189,7 +196,8 @@ class Game {
         if(!this.beguining){
             this.context.fillText("Score : "+this.score,(this.canvas.width/12),60);
             this.context.fillText("Life : x"+this.vie,(this.canvas.width/12),90);
-            this.context.fillText("Level : "+this.niveau,(this.canvas.width/12),440);
+            this.context.font = "27px";
+            this.context.fillText("Level  :  "+this.niveau,(this.canvas.width/12),440);
         }
 
     }
@@ -199,14 +207,14 @@ class Game {
         // Preparation du prochain niveau
         // on passe au niveau suivant
         this.niveau++;
-
+        this.win = true;
         // on ajoute le score du niveau au score courant
         this.score = this.score;
         // on precise que le joueur n'est plus dans le niveau
-        this.level = null;
+        this.stopLevel();
         // Comme le joueur a gagne le niveau courant
         // on joue une musique de victoire
-        let soundtrack : Sound = new Sound("./sounds/son_victoire.wav");
+        let soundtrack : Sound = new Sound("./sounds/win.mp3");
         soundtrack.playSound();
         // }
     }
@@ -216,19 +224,19 @@ class Game {
         // Comme le joueur a perdu le niveau courant
         // on augmente le nombre de parties perdues de 1
         this.vie--;
-
+        this.win = false;
         if(this.vie < 1){
             this.game_over = true;
         }
         // Re-initialisation du niveau courant
         // on precise que le joueur n'est plus dans le niveau
-        this.level = null;
+        this.stopLevel();
 
 
         // joue une musique de defaite
 
-        // let soundtrack : Sound = new Sound("./sounds/son_defaite.wav");
-        // soundtrack.playSound();
+        let soundtrack : Sound = new Sound("./sounds/death.mp3");
+        soundtrack.playSound();
 
     }
 
@@ -258,9 +266,8 @@ class Game {
             this.context.font = "27px arcadeclassicregular";
             this.context.fillStyle = "#fff";
 
-            this.context.fillText("Your Score : "+this.score,(this.canvas.width/2),250);
+            this.context.fillText("Your  Score  :  "+this.score,(this.canvas.width/2),250);
             this.context.font = "18px arcadeclassicregular"; 
-            this.context.fillText("Hit the Replay button to replay",(this.canvas.width/2),300);
             this.level = null;
         }
         // let soundtrack : Sound = new Sound("./sounds/yeah.wav");
@@ -274,13 +281,13 @@ class Game {
         this.context.fillStyle = "#fff";
         this.context.font = "36px arcadeclassicregular";
         this.context.textAlign = "center";
-        this.context.fillText("Top Player : ",(this.canvas.width/2),50);
+        this.context.fillText("Top  Player  :  ",(this.canvas.width/2),50);
         this.context.font = "27px arcadeclassicregular";
         this.context.textAlign = "left";
         this.htmlManager.getFromBack('http://localhost/SpaceInvader/serv/get.php', (score : object) =>{
             for(let i : number = 0; i<5; i++){
                 if(score[i]){
-                    this.player_score.push((i+1)+"- "+score[i].player+" : "+score[i].score);
+                    this.player_score.push((i+1)+" -  "+score[i].player+"  :  "+score[i].score);
                 }else{
                     this.player_score.push((i+1)+"- ");
                 } 
@@ -296,7 +303,7 @@ class Game {
             this.context.fillText("Wait...",(this.canvas.width/4),100);
         }
         this.context.font = "36px arcadeclassicregular";
-        this.context.fillText("Press Enter to Play ->",(this.canvas.width/6),350);
+        this.context.fillText("Press  Enter  to  Play ->",(this.canvas.width/6),350);
     }
 
     private createLoop()
@@ -329,6 +336,13 @@ class Game {
                 }
             }
     }
+
+    stopLevel()
+    {
+        this.level.getMusic().getSon().pause();
+        this.level.getMusic().getSon().currentTime = 0;
+        this.level = null;
+    }
 }
 
 // Le debut de notre programme ne s'effectuera que lorsque la page html
@@ -336,7 +350,8 @@ class Game {
 window.onload = () => {
     // Creation du jeu dont le rafraichissement s'effectuera 30 fois par seconde
     let jeu = new Game(30);
-    jeu.getM().getSub().onclick = () => {
+    jeu.getM().getSub().onclick = (ev) => {
+        ev.preventDefault();
         jeu.sendDbPlayer();
     }
 };
