@@ -6,7 +6,6 @@
 class Invaders {
     public tab: Array<Monster>;
     public bosss: Array<Boss>;
-    private bonus : Monster
     public canvas : HTMLCanvasElement;
     private i_tmp: number;
     private change_dir : boolean;
@@ -76,20 +75,9 @@ class Invaders {
             return './images/laser3.png';
         }
     }
-    public sendBonus()
-    {
-        // if(this.bonus.getTo_delete){
-        //     this.bonus = null;
-        //     this.bonus = new Monster(this.canvas, this.canvas.getContext('2d'), "./images/monstre.png", this.i_tmp, 5, 2);
-        // }else{
-        //     this.bonus.drawObject(0, 0);
-        //     this.bonus.move_bonus(true, this.bonus.getDir().getX(), 0, 200);    
-        // }
-    }
 
     public move(tmp_monstres : Array<Monster>)
     {
-        // ?
         let current_pos_y : number;
         // use to get the moment on impact
         let old_dir : number;

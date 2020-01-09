@@ -39,6 +39,8 @@ var AnimatedObject = /** @class */ (function () {
     };
     // °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
     AnimatedObject.prototype.move = function (update_dir) {
+        // let x : number = this.pos.getX() + (this.dir.getX() * this.speed);
+        // let y : number = this.pos.getY() + (this.dir.getY() * this.speed);
         var x = this.pos.getX() + (this.dir.getX() * this.speed);
         var y = this.pos.getY() + (this.dir.getY() * this.speed);
         var test_x = (this.canvas.width - this.width);

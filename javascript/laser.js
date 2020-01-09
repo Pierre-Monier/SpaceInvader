@@ -19,11 +19,18 @@ var Laser = /** @class */ (function (_super) {
         var _this = _super.call(this, canvas, context, src) || this;
         _this.is_monster = is_monster;
         if (is_monster && level > 6) {
-            _this.speed = 30;
+            _this.speed = 15;
+        }
+        else if (level > 12) {
+            _this.speed = 25;
+        }
+        else if (is_monster) {
+            _this.speed = 10;
         }
         else {
-            _this.speed = 20;
+            _this.speed = 25;
         }
+        _this.speed = 25;
         if (src === './images/laser3.png') {
             _this.width = 48;
             _this.height = 14;

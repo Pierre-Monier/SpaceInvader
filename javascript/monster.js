@@ -15,17 +15,19 @@ var __extends = (this && this.__extends) || (function () {
 /// <reference path='sound.ts'/>
 var Monster = /** @class */ (function (_super) {
     __extends(Monster, _super);
-    function Monster(canvas, context, src, i_tmp, j, speed) {
+    function Monster(canvas, context, src, i_tmp, j, level) {
         var _this = _super.call(this, canvas, context, src) || this;
         _this.horizontal_pos = j;
-        _this.speed = speed;
+        _this.speed = 1;
+        if (level > 6) {
+            _this.speed = 2;
+        }
         _this.width = 30;
         _this.height = 32;
         _this.pos = new Vector(i_tmp * _this.width, j * _this.height);
         _this.dir = new Vector(1, 0);
         _this.death_sound = new Sound('./sounds/explosion.wav');
         _this.x_sprite = 0;
-        _this.y_sprite = 0;
         return _this;
     }
     Monster.prototype.move = function (update_dir) {

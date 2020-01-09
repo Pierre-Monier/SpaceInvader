@@ -4,15 +4,17 @@ class Monster extends AnimatedObject  {
     public death_sound : Sound;
     private horizontal_pos : number;
     private x_sprite : number;
-    private y_sprite : number;
 
     constructor(canvas : HTMLCanvasElement,
         context : CanvasRenderingContext2D,
-        src : string, i_tmp : number, j : number, speed : number)
+        src : string, i_tmp : number, j : number, level : number)
     {
         super(canvas,context,src);
         this.horizontal_pos = j;
-        this.speed = speed;
+        this.speed = 1;
+        if(level > 6){
+            this.speed = 2;
+        }
         this.width = 30;
         this.height = 32;
 
@@ -21,7 +23,6 @@ class Monster extends AnimatedObject  {
         this.dir = new Vector(1, 0);
         this.death_sound = new Sound('./sounds/explosion.wav');
         this.x_sprite = 0;
-        this.y_sprite = 0;
 
     }
     public move(update_dir : boolean)

@@ -1,36 +1,50 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Jeu</title>
-		<link rel="stylesheet" href="./css/style.css" />
-		<link rel="stylesheet" href="./font/stylesheet.css"/>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="msapplication-TileColor" content="#603cba">
+	<meta name="theme-color" content="#331b76">
+	<link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
+	<link rel="manifest" href="./favicon/site.webmanifest">
+	<link rel="mask-icon" href="./favicon/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="stylesheet" href="./css/style.css" />
+	<link rel="stylesheet" href="./font/stylesheet.css" />
+	<script type="text/javascript" src="./javascript/vector.js"></script>
+	<script type="text/javascript" src="./javascript/sound.js"></script>
+	<script type="text/javascript" src="./javascript/animatedobject.js"></script>
+	<script type="text/javascript" src="./javascript/multisprites.js"></script>
+	<script type="text/javascript" src="./javascript/laser.js"></script>
+	<script type="text/javascript" src="./javascript/hero.js"></script>
+	<script type="text/javascript" src="./javascript/monster.js"></script>
+	<script type="text/javascript" src="./javascript/level.js"></script>
+	<script type="text/javascript" src="./javascript/game.js"></script>
+	<script type="text/javascript" src="./javascript/invaders.js"></script>
+	<script type="text/javascript" src="./javascript/shield.js"></script>
+	<script type="text/javascript" src="./javascript/htmlManager.js"></script>
+	<script type="text/javascript" src="./javascript/boss.js"></script>
+	<title>Space invaders</title>
+	<script>
+		if ('serviceWorker' in navigator) {
+		window.addEventListener('load', () => {
+			navigator.serviceWorker.register('./service-worker.js')
+		});
+		}
+	</script>
+</head>
 
-		<script type="text/javascript" src="./javascript/vector.js"></script>
-		<script type="text/javascript" src="./javascript/sound.js"></script>
-		<script type="text/javascript" src="./javascript/animatedobject.js"></script>
-		<script type="text/javascript" src="./javascript/multisprites.js"></script>
-		<script type="text/javascript" src="./javascript/laser.js"></script>
-		<script type="text/javascript" src="./javascript/hero.js"></script>
-		<script type="text/javascript" src="./javascript/monster.js"></script>
-		<script type="text/javascript" src="./javascript/level.js"></script>
-		<script type="text/javascript" src="./javascript/game.js"></script>
-		<script type="text/javascript" src="./javascript/invaders.js"></script>
-		<script type="text/javascript" src="./javascript/shield.js"></script>
-		<script type="text/javascript" src="./javascript/bonus.js"></script>
-		<script type="text/javascript" src="./javascript/htmlManager.js"></script>
-		<script type="text/javascript" src="./javascript/boss.js"></script>
-
-	</head>
-	<body>
-		<canvas id="game"></canvas>
-		<div class="" id="end">
-			<label for="">
+<body>
+	<img src="./images/logo.png" alt="logo">
+	<canvas id="game"></canvas>
+	<div class="" id="end">
+		<label for="">
 			<input placeholder="Enter  your  name" type="text" name="player" id=""></label>
-			<!-- <button id="sub">Sub</button> -->
-			<a href="#" id="sub">submit</a>
-			<a href="#"class="replay-btn hide-btn"onclick="location.reload()">Replay</a>
-			<!-- <button ></button> -->
-		</div>
-	</body>
+		<a href="#" id="sub">submit</a>
+		<a href="#" class="replay-btn hide-btn" onclick="location.reload()">Replay</a>
+	</div>
+</body>
+
 </html>

@@ -61,6 +61,8 @@ class AnimatedObject {
     public move(update_dir  :  boolean)
 // gère le déplacementde l’objet
             {
+                // let x : number = this.pos.getX() + (this.dir.getX() * this.speed);
+                // let y : number = this.pos.getY() + (this.dir.getY() * this.speed);
                 let x : number = this.pos.getX() + (this.dir.getX() * this.speed);
                 let y : number = this.pos.getY() + (this.dir.getY() * this.speed);
                 let test_x = (this.canvas.width - this.width);
@@ -80,8 +82,8 @@ class AnimatedObject {
                         this.setDirection(0, 0); 
                     }else{
                     this.setDirection(this.dir.getX(), -this.dir.getY());
-                }
-            }
+                    }
+                }   
             if(x < 0){
                 x = 1;
             }else if(x > test_x){

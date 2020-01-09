@@ -14,10 +14,15 @@ class Laser extends AnimatedObject implements Speaking {
         super(canvas,context,src);
         this.is_monster = is_monster;
         if(is_monster && level > 6){
-            this.speed = 30;
+            this.speed = 15;
+        }else if(level > 12){
+            this.speed = 25;
+        }else if(is_monster){
+            this.speed = 10;
         }else{
-            this.speed = 20;
+            this.speed = 25;
         }
+        this.speed = 25;
         if(src === './images/laser3.png'){
             this.width = 48;
             this.height = 14;

@@ -2,7 +2,7 @@ body {
     text-align: center;
 }
 
-#game {
+#game, img {
     /*position: absolute;
 	left: 10px;
     top: 10px;*/
@@ -14,10 +14,12 @@ body {
     display: inline-block;
     margin-top: 15px;
 }
-/* @font-face {
-    font-family: arcadeclassicregular;
-    src: url('http://localhost/SpaceInvader/css/font/ARCADECLASSIC.TTF') format('truetype'),
-} */
+img{
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    width: 20%;
+}
 h1{
     font-family: 'arcadeclassicregular';
 }

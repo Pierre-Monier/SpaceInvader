@@ -55,20 +55,12 @@ class Vector {
 // Pour tester, lancer le fichier index.html sur Chrome //
 // et ouvrez la console.                                //
 
-console.log("Debut - Test de la classe Vector");
 let v : Vector = new Vector(5,3);
-console.log("vx , vy =", v.getX(),",",v.getY()," (attendu: 5 , 3 )");
 v.setValues(12,9);
-console.log("vx , vy =", v.getX(),",",v.getY()," (attendu: 12 , 9 )");
 v.addToX(1);
-console.log("vx =", v.getX()," (attendu: 13 )");
 v.addToX(-7);
-console.log("vx =", v.getX()," (attendu: 6 )");
 v.addToY(11);
-console.log("vy =", v.getY()," (attendu: 20 )");
 v.addToY(-19);
-console.log("vy =", v.getY()," (attendu: 1 )");
-console.log("Fin - Test de la classe Vector");
 
 
 //////////////////

@@ -59,17 +59,7 @@ var Invaders = /** @class */ (function () {
             return './images/laser3.png';
         }
     };
-    Invaders.prototype.sendBonus = function () {
-        // if(this.bonus.getTo_delete){
-        //     this.bonus = null;
-        //     this.bonus = new Monster(this.canvas, this.canvas.getContext('2d'), "./images/monstre.png", this.i_tmp, 5, 2);
-        // }else{
-        //     this.bonus.drawObject(0, 0);
-        //     this.bonus.move_bonus(true, this.bonus.getDir().getX(), 0, 200);    
-        // }
-    };
     Invaders.prototype.move = function (tmp_monstres) {
-        // ?
         var current_pos_y;
         // use to get the moment on impact
         var old_dir;
